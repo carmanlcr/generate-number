@@ -1,0 +1,4 @@
+.body-scrool {
+    height: 200px; /* %-height of the viewport */
+    overflow-y: scroll;
+}
