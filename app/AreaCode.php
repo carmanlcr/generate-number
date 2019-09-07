@@ -64,6 +64,6 @@ class AreaCode extends Model
      * @author Luis Morales
      */
     public function stateszone(){
-        return $this->belongsTo('App\StateZone');
+        return $this->belongsTo('App\StateZone','STATESZONE_ID');
     }
 }

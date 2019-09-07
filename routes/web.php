@@ -1,6 +1,8 @@
 <?php
 
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PhonesExport;
+use App\Phone;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,7 +18,6 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-//Route::get('prueba', 'AudioController@index');
 
 //Auth::routes();
 
@@ -28,3 +29,10 @@ Route::get('generate','GenerateNumbersController@index');
 Route::post('generate','GenerateNumbersController@generate')->name('numberGenerate');
 
 Route::get('generate-number-aleatorio','NumbersController@create');
+Route::get('export-number',function(){
+	$date = date("Y-m-d H:i:s");
+	return Excel::download(new PhonesExport,'phones-'.$date.'.xlsx');
+})->name('exportar');
+
+
+Route::get('vicidial','Vicidial\VicidialPruebaController@index');

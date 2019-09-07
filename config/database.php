@@ -64,6 +64,18 @@ return [
             ],
         ],
 
+        'asterisk'  => [
+            'driver'     => 'mysql',
+            'host'       => env('ASTERISK_HOST', 'localhost'),
+            'database'   => env('ASTERISK_DATABASE', 'forge'),
+            'username'   => env('ASTERISK_USERNAME', 'forge'),
+            'password'   => env('ASTERISK_PASSWORD', ''),
+            'charset'    => 'utf8',
+            'collation'  => 'utf8_unicode_ci',
+            'prefix'     => '',
+            'strict'     => false,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),

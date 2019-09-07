@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
 *
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 * @version 1.0.0
 *
 */
-class StateZone extends Model
+class StateZone extends Pivot
 {
 
 	/**
@@ -48,6 +48,14 @@ class StateZone extends Model
      * @author Luis Morales
      */
     public $timestamps = false;
+
+    /**
+    *
+    * @version 1.0.0
+    * @var bool
+    * @author Luis Morales
+    */
+    public $incrementing = true;
 
     /**
      * Get the status zone for area codes

@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 */
 class AnalyzedPhone extends Model
 {
+
+    
     /**
      * The table associated with the model.
      * 

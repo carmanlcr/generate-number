@@ -65,7 +65,7 @@ class State extends Model
      */
     public function zones()
     {
-        return $this->belongsToMany('App\Zone', 'STATESZONE', 'STATES_ID', 'ZONES_ID');
+        return $this->belongsToMany('App\Zone', 'STATESZONE', 'STATES_ID', 'ZONES_ID')->using('App\StateZone');
     }
 
     /**

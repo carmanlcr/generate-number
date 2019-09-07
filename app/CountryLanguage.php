@@ -41,6 +41,14 @@ class CountryLanguage extends Pivot
     ];
 
     /**
+    *
+    * @version 1.0.0
+    * @var bool
+    * @author Luis Morales
+    */
+    public $incrementing = true;
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
