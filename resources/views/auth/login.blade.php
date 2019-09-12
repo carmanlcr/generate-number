@@ -1,8 +1,8 @@
-@extends('layouts.app')
+
 @section('css')
 <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 @endsection
-@section('login')
+
     <div class="container" id="app_login">
         <div class="login-form">
             <div class="main-div">
@@ -23,4 +23,3 @@
         </div> 
     </div>
 
-@endsection

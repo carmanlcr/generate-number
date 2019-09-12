@@ -27,15 +27,7 @@
 <body >
     
     <main class="py-4">
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="home-tab">
-                @yield('login')
-            </div>
-            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="profile-tab">
-                @include('auth.register')
-            </div>
-        </div>
-
+        @include('auth.auth-login')
         @yield('content')
     </main>
    

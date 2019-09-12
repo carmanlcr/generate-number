@@ -13,10 +13,14 @@ use App\Number;
 use App\AreaCode;
 use App\Phone;
 use App\Exports\PhonesExport;
+use App\VicidialModel\VicidialList;
+use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use App\Jobs\InsertVicidial;
 
 class GenerateNumbersController extends Controller
 {
-
+    use Queueable, SerializesModels;
 	/**
 	*	
 	*
@@ -34,16 +38,7 @@ class GenerateNumbersController extends Controller
     			->with('states',$states);
     }
 
-    public function create(){
-
-    }
-
     function generate(Request $request){
-    	/*$phones = Phone::whereDay ('DATE', date('d'))->chunk(100,function($phone){
-				foreach ($phone as $p) {
-					dd($p);
-				}
-			});*/
     	//Buscar los codigos de area para todos los estados seleccionados
     	$areaCodes = $this->searchAreaCode($request->state);
     	//Buscar los numeros a seleccionar
@@ -56,10 +51,12 @@ class GenerateNumbersController extends Controller
 
     	}
     	//Buscar si ya existen los numeros en la base de datos
-    	$this->validateNumberBD($areaCodes,$numbers);
+    	$date = $this->validateNumberBD($areaCodes,$numbers);
+
+    	//
+    	\Session::flash('mensaje-success', 'Ya puede descargar tu archivo');
     	return view('prueba')
-    			->with('areaCodes',$areaCodes)
-    			->with('numbers',$numbers);
+    			->with('date',$date);
     }
 
     /**
@@ -72,7 +69,6 @@ class GenerateNumbersController extends Controller
     */
     private function searchAreaCode($zonas){
     	//Transformación de STATES_ID a query
-
     	$queryStates = array();
     	foreach ($zonas as $key => $value) {
     		foreach ($value as $k => $valor) {
@@ -81,21 +77,20 @@ class GenerateNumbersController extends Controller
     		}
     	}
 
-
-
+    	//Transformación de ZONES_ID a query
     	$queryZone = array();
     	foreach ($zonas as $key => $value) {
     		$queryZone[] = $key;
      	}
-     	//dd($queryZone);
+     	
     	
     	$areaCodes = AreaCode::join('STATESZONE', function($join) use ($queryStates,$queryZone){
     				$join->on('AREACODES.STATESZONE_ID','=','STATESZONE.STATESZONE_ID')
     				->whereIn('ZONES_ID',$queryZone)
     				->whereIn('STATES_ID',$queryStates);
-    			})->get(['AREACODES.CODE','AREACODES.AREACODES_ID']);
+    			})->join('STATES','STATES.STATES_ID','=','STATESZONE.STATES_ID')
+        ->get(['AREACODES.CODE','AREACODES.AREACODES_ID','STATESZONE.ZONES_ID','STATES.NAME']);
 
-    	//\Debugbar::info($areaCodes);
     	return $areaCodes;
     			
     }
@@ -123,40 +118,53 @@ class GenerateNumbersController extends Controller
 	} 
 
 	private function validateNumberBD($areaCodes,$numbers){
-		$arrayAreaCodes = array();
+		$arrayAreaCodesId = array();
+        $arrayAreaCodes = array();
 		foreach ($areaCodes as $key => $value) {
-			$arrayAreaCodes[] = $value->AREACODES_ID;
+			$arrayAreaCodesId[] = $value->AREACODES_ID;
+            $arrayAreaCodes['CODE'][] = $value->CODE;
+            $arrayAreaCodes['ZONE'][] = $value->ZONES_ID;
+            $arrayAreaCodes['CITY'][] = $value->NAME;
 		}
 
-		$consultArray = array();
+		$consultArrayPhone = array();
+        $consultArray = array();
 		
 		for($i = 0; $i < count($numbers); $i++){
-			for($j = 0; $j < count($arrayAreaCodes);$j++){
+			for($j = 0; $j < count($arrayAreaCodesId);$j++){
 
-				$consultArray[] = (['PHONE' => $numbers[$i],'AREACODES_ID' => $arrayAreaCodes[$j]]);
+				$consultArrayPhone[] = (['PHONE' => $numbers[$i],'AREACODES_ID' => $arrayAreaCodesId[$j]]);
 			}
 			
 		}
-		$searchOrCreate = Phone::insertIgnore($consultArray);
+
+        for($i = 0; $i < count($numbers); $i++){
+            for($j = 0; $j < count($arrayAreaCodes['CODE']);$j++){
+                $consultArray[] = (['phone_number' => $arrayAreaCodes['CODE'][$j].$numbers[$i], 'zona' => $arrayAreaCodes['ZONE'][$j],
+                    'city' => $arrayAreaCodes['CITY'][$j]]);
+            }
+            
+        }
+
+        //Generación de colas para la inserción en la base de datos.
+        $queue = new InsertVicidial($consultArray);
+        dispatch($queue);
+        
+
+		$searchOrCreate = Phone::insertIgnore($consultArrayPhone);
 
 		if($searchOrCreate){
-			$phones = Phone::select('PHONES.PHONE','AREACODES.CODE')
-							->join('AREACODES','AREACODES.AREACODES_ID','=','PHONES.AREACODES_ID')
-							->where('DATE',$searchOrCreate)
-							->get();
-			
 
-				/*$phones = Phone::where('DATE',$searchOrCreate)
-                ->chunk(500,function($phone){
-                        foreach ($phone as $p) {
-                        dd($p->areacodes);
-                    }
-        });*/
+			return $searchOrCreate;
 
 		}
 
 		
-	}
+	}  
+
+
+
+
 
 }
 

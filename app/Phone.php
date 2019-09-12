@@ -85,8 +85,8 @@ class Phone extends Model
         $array1 = array();
         $date = date("Y-m-d H:i:s");
         foreach ($arrayOfArrays as $k => $array) {
-                $array['DATE'] =  $date;
                 
+                $array['DATE'] =  $date;
                 if ($valorAutoIncrementable > 0) {
                     $questionMarks .= ',';
                 }

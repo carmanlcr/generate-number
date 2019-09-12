@@ -43,7 +43,7 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
+            'port' => env('DB_PORT', '3307'),
             'database' => env('DB_DATABASE', 'test'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
@@ -66,14 +66,17 @@ return [
 
         'asterisk'  => [
             'driver'     => 'mysql',
-            'host'       => env('ASTERISK_HOST', 'localhost'),
-            'database'   => env('ASTERISK_DATABASE', 'forge'),
-            'username'   => env('ASTERISK_USERNAME', 'forge'),
+            'host'       => env('ASTERISK_HOST', '190.60.237.102'),
+            'port'       => env('ASTERISK_PORT', '3306'),
+            'database'   => env('ASTERISK_DATABASE', 'asterisk'),
+            'username'   => env('ASTERISK_USERNAME', 'lmorales'),
             'password'   => env('ASTERISK_PASSWORD', ''),
             'charset'    => 'utf8',
             'collation'  => 'utf8_unicode_ci',
             'prefix'     => '',
-            'strict'     => false,
+            'prefix_indexes' => true,
+            'strict'     => true,
+            'engine' => null,
         ],
 
         'pgsql' => [

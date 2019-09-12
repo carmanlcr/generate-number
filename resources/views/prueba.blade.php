@@ -3,20 +3,26 @@
 @section('content')
 	<div class="container">
 		<div class=" row">
-			<div class="col-md-4">
-				@foreach($areaCodes as $areaCode)
-					@foreach($numbers as $number)
-						{{$areaCode->CODE}}{{$number}}
-						<br>
-					@endforeach
-					<br>
-				@endforeach
-			</div>
 
-			<div class ="col-md-6">
-				<a href="{{ route('exportar') }}" class="btn btn-success">Exportar <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
-			</div>
+
+			@if(session()->has('mensaje-success'))
+				<div class="col-md-4">
+					<a href="{{ url('/generate') }}" class="btn btn-primary">Volver 
+						<span class="glyphicon glyphicon-arrow-left"></span></a>
+				</div>
+
+				<div class ="col-md-2">
+					<a href="{{ url('export-number',['date' => $date]) }}" class="btn btn-success">Exportar <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+				</div>
+				<div class="col-md-4"> 
+					<div class="alert alert-success">
+					  {{ session()->get('mensaje-success') }}
+					</div>
+				</div> 
+			@endif
 		</div>
 	</div>
+
+
 	
 @endsection

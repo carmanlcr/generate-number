@@ -5,10 +5,4 @@
 	<div class="col-lg-2">
 		<button type="submit"  class="btn btn-primary">Generar</button>
 	</div>
-
-	@if(session()->has('mensaje-success')) 
-		<div class="alert alert-success">
-		  {{ session()->get('mensaje-success') }}
-		</div>
-	@endif
 </div>
