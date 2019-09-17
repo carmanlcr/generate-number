@@ -28,9 +28,10 @@ Route::get('generate','GenerateNumbersController@index')->name('generador');
 Route::post('generate','GenerateNumbersController@generate')->name('numberGenerate');
 
 Route::get('/generador-automatico','Vicidial\VicidialPruebaController@count');
+Route::get('/vicidial/{zona}','Vicidial\VicidialPruebaController@index');
+
 
 Route::get('generate-number-aleatorio','NumbersController@create');
 Route::get('export-number/{date}','ExcelController@export')->name('exportar');
 
 
-//Route::get('vicidial','Vicidial\VicidialPruebaController@index');

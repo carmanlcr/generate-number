@@ -103,6 +103,7 @@ class VicidialList extends Model
         $values = [];
         $valorAutoIncrementable = 0;
         foreach ($arrayOfArrays as $k => $array) {
+            
                 //Setear el status del campo
                 $array['status'] = $STATUS_VALUE;
 
@@ -141,7 +142,6 @@ class VicidialList extends Model
                     $values = [];
                     $valorAutoIncrementable = 0;
                 }
-                \Debugbar::info($array);
         }   
 
         $query = 'INSERT IGNORE INTO ' . $table . ' (' . implode(',', array_keys($array)) . ') VALUES ' . $questionMarks.';';

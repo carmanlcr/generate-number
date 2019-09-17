@@ -8,19 +8,15 @@
 			GENERADOR DE NUMEROS
 		</h1>
 		<br>
-		<form class="form-group" href="{{ route('numberGenerate') }}" method="POST">
-			@csrf
-			@include('generate.generatecard')
-			@include('generate.inputquantity')	
-		</form>
+
 		<div class="row">
-			<div class="col-lg-4" id="columna">
-				<div class="alert " role="alert" id="alert">
-				
-					<strong><div id='myWatch'></div></strong>
-				</div>
-			</div>
+			<table class="table">
+			  @include('generate.table-cabecera')
+			  @include('generate.table-body')
+			</table>
+
 		</div>
+		
 		
 		
 		
@@ -34,7 +30,7 @@
 	<script type="text/javascript">
 		//getTimeAJAX();
 		$("#columna").hide();
-    function getTimeAJAX() {
+     function getTimeAJAX() {
 
     	
     	
@@ -46,30 +42,22 @@
             type: 'get',
             dataType: 'JSON',//indicamos que es de tipo texto plano
             async: false,     //ponemos el parámetro asyn a falso
-            success: function(data, textStatus) 
+            success: function(data) 
         	{ 
 
-        		let nombreClassAlert = "alert-"+data.status;
-        		$("#alert").addClass(nombreClassAlert);
-        		$("#columna").show();
-        		document.getElementById("myWatch").innerHTML = "   "+data.response;
-        		await sleep(10000);
+        		
         		location.reload();
+        	
             },
             error: function(data){
-            	console.log()
+            	console.log(data);
             }
         }).responseText;
 
-
-        
-        
-
-        
     }
 
     //con esta funcion llamamos a la función getTimeAJAX cada 5 minutos para que valide e inserte 
-    setInterval(getTimeAJAX,300000);
+    setInterval(getTimeAJAX,1200000);
 
 </script>
 @endsection

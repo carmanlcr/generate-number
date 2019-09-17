@@ -14,6 +14,9 @@ use App\Jobs\InsertVicidial;
 class VicidialPruebaController extends Controller
 {
 
+    public function index($zona){
+        return VicidialList::where('status','=','NEW')->where('list_id','=',$zona)->where('called_count','=',0)->count();
+    }
     public function count(){
 
         
@@ -78,6 +81,7 @@ class GeneradorAutomatico{
         $areaCodes = $this->searchAreaCode($this->zona);
         //Buscar los numeros a seleccionar
         $numbers = $this->searchNumbers(7,(int)25000/count($areaCodes));
+        
         //Insertar los numeros en base de datos
         $this->insertDB($areaCodes,$numbers);
     }
@@ -142,8 +146,10 @@ class GeneradorAutomatico{
         }
 
         //Generación de colas para la inserción en la base de datos.
-        $queue = new InsertVicidial($consultArray);
-        dispatch($queue);
+        /*$queue = new InsertVicidial($consultArray);
+        dispatch($queue);*/
+
+        VicidialList::insertIgnore($consultArray);
         
     }
 

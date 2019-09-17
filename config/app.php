@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Project'),
+    'name' => env('APP_NAME', 'Generador de Numeros'),
 
     /*
     |--------------------------------------------------------------------------
@@ -180,7 +180,7 @@ return [
 
         //Excel
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        Anchu\Ftp\FtpServiceProvider::class,
     ],
 
     /*

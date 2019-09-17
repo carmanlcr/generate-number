@@ -27,18 +27,29 @@ class GenerateNumbersController extends Controller
 	* @return view 
 	*/
     public function index(){
-    	$zonas = DB::table('zones')
-    			->select('ZONES_ID', 'NAME')
-    			->get();
-    	$states = State::with('zones')->orderBy('NAME','ASC')->get();
+        \Artisan::call('cache:clear');
+        $zonas = array(1000,2000,3000,4000);
+        $countZone = DB::connection('asterisk')->select('CALL numberCounterByZone');
+
+        foreach ($countZone as $key => $value) {
+            
+            $countZone[$key] = get_object_vars($value) ;
+            foreach ($zonas as $k => $zona) {
+                if($zona == $value->list_id){
+                    unset($zonas[$k]);
+                }
+            }
+            
+        }
+        foreach ($zonas as $key => $zona) {
+            array_push ($countZone, ['list_id' => $zona , 'count' => 0]);
+        }
     	
-    	//$numeros = $this->generate();
-    	return view('generate.generate')
-    			->with('zonas',$zonas)
-    			->with('states',$states);
+    	return view('generate.generate')->with('zonas',$countZone);
     }
 
     function generate(Request $request){
+
     	//Buscar los codigos de area para todos los estados seleccionados
     	$areaCodes = $this->searchAreaCode($request->state);
     	//Buscar los numeros a seleccionar
@@ -54,6 +65,7 @@ class GenerateNumbersController extends Controller
     	$date = $this->validateNumberBD($areaCodes,$numbers);
 
     	//
+
     	\Session::flash('mensaje-success', 'Ya puede descargar tu archivo');
     	return view('prueba')
     			->with('date',$date);
@@ -147,10 +159,10 @@ class GenerateNumbersController extends Controller
         }
 
         //Generación de colas para la inserción en la base de datos.
-        $queue = new InsertVicidial($consultArray);
-        dispatch($queue);
-        
 
+       /*$queue = new InsertVicidial($consultArray);
+       dispatch($queue);*/
+        VicidialList::insertIgnore($consultArray);
 		$searchOrCreate = Phone::insertIgnore($consultArrayPhone);
 
 		if($searchOrCreate){

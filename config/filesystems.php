@@ -64,6 +64,20 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'ftp' => [
+            'driver' => 'ftp',
+            'host' => env('FTP_HOST','190.237.60.98'),
+            'username' => env('FTP_USERNAME','root'),
+            'password' =>  env('FTP_PASSWORD'),
+
+            // Optional FTP Settings...
+            'port' => env('FTP_PORT',22)
+            // 'root' => '',
+            // 'passive' => true,
+            // 'ssl' => true,
+            // 'timeout' => 30,
+        ],
+
     ],
 
 ];

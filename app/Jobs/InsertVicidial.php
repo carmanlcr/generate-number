@@ -20,7 +20,6 @@ class InsertVicidial implements ShouldQueue
      * @return void
      */
     public function __construct($array){
-        
         $this->array = $array;
     }
 
@@ -31,7 +30,7 @@ class InsertVicidial implements ShouldQueue
      */
     public function handle()
     {
-        
+         
         VicidialList::insertIgnore($this->array);
     }
 }

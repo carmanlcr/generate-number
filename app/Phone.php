@@ -84,6 +84,7 @@ class Phone extends Model
         $valorAutoIncrementable = 0;
         $array1 = array();
         $date = date("Y-m-d H:i:s");
+        
         foreach ($arrayOfArrays as $k => $array) {
                 
                 $array['DATE'] =  $date;
