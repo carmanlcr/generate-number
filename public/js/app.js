@@ -49031,54 +49031,6 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 /***/ }),
 
-/***/ "./resources/js/auth.js":
-/*!******************************!*\
-  !*** ./resources/js/auth.js ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-new Vue({
-  el: '#app_login',
-  data: {
-    email: '',
-    password: ''
-  },
-  methods: {
-    login: function login() {
-      axios.post('/login', {
-        email: this.email,
-        password: this.password
-      }).then(function (error) {
-        console.log("Response ");
-        swal({
-          title: 'Has Iniciado Sesión',
-          text: 'Datos Correctos',
-          icon: 'success',
-          closeOnClickOutside: false,
-          claseOnEsc: false
-        });
-      })["catch"](function (response) {
-        console.log("Error " + error.response.data);
-        var er = error.response.data.errors;
-        var mensaje = "Error no especificado";
-
-        if (er.hasOwnProperty('email')) {
-          mensaje = er.email[0];
-        } else if (er.hasOwnProperty('password')) {
-          mensaje = er.password[0];
-        } else if (er.hasOwnProperty('password')) {
-          mensaje = er.login[0];
-        }
-
-        swal('Error', mensaje, 'error');
-      });
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -49137,6 +49089,35 @@ if (token) {
 
 /***/ }),
 
+/***/ "./resources/js/calls.js":
+/*!*******************************!*\
+  !*** ./resources/js/calls.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+new Vue({
+  el: '#calls',
+  created: function created() {
+    this.getCalls();
+  },
+  data: {
+    calls: []
+  },
+  methods: {
+    getCalls: function getCalls() {
+      var _this = this;
+
+      var UrlCalls = 'call';
+      axios.get(UrlCalls).then(function (response) {
+        _this.calls = response.data;
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/sass/app.scss":
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
@@ -49149,15 +49130,15 @@ if (token) {
 /***/ }),
 
 /***/ 0:
-/*!************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/js/auth.js ./resources/sass/app.scss ***!
-  \************************************************************************************/
+/*!*************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/js/calls.js ./resources/sass/app.scss ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Project\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\Project\resources\js\auth.js */"./resources/js/auth.js");
-module.exports = __webpack_require__(/*! C:\Project\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\generate\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\generate\resources\js\calls.js */"./resources/js/calls.js");
+module.exports = __webpack_require__(/*! C:\generate\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

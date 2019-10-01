@@ -5,16 +5,16 @@
 @section('content')
 	<div class="container">
 		<h1 class="text-center">
-			GENERADOR DE NUMEROS
+			<strong class="text-primary">GENERADOR DE NUMEROS</strong>
 		</h1>
 		<br>
 
 		<div class="row">
-			<table class="table">
+			<table class="table table-bordered">
 			  @include('generate.table-cabecera')
 			  @include('generate.table-body')
 			</table>
-
+			<span id = "2"></span>
 		</div>
 		
 		
@@ -38,26 +38,26 @@
         //GUARDAMOS EN UNA VARIABLE EL RESULTADO DE LA CONSULTA AJAX    
         $.ajax({
 
-            url: '/generador-automatico', //indicamos la ruta donde se genera la hora
+            url: '/generador-automatico', //indicamos la ruta donde se genera los numeros aleatorios
             type: 'get',
             dataType: 'JSON',//indicamos que es de tipo texto plano
             async: false,     //ponemos el parámetro asyn a falso
             success: function(data) 
         	{ 
 
-        		
-        		location.reload();
+        		console.log(data.response);
         	
             },
             error: function(data){
-            	console.log(data);
+            	console.log(data.responseJSON.message);
             }
         }).responseText;
 
     }
 
     //con esta funcion llamamos a la función getTimeAJAX cada 5 minutos para que valide e inserte 
-    setInterval(getTimeAJAX,1200000);
+    setInterval(getTimeAJAX,300000);
+    
 
 </script>
 @endsection

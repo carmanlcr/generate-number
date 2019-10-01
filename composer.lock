@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1276cf396640189729b0bba8d4ca03c",
+    "content-hash": "61627871469b815562dacbf133b50fb4",
     "packages": [
         {
             "name": "anchu/ftp",

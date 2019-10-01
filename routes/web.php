@@ -34,4 +34,6 @@ Route::get('/vicidial/{zona}','Vicidial\VicidialPruebaController@index');
 Route::get('generate-number-aleatorio','NumbersController@create');
 Route::get('export-number/{date}','ExcelController@export')->name('exportar');
 
+Route::get('calls','Vicidial\CallsController@index')->name('calls');
+Route::get('call','Vicidial\CallsController@calls');
 

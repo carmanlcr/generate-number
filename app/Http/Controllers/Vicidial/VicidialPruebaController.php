@@ -20,40 +20,43 @@ class VicidialPruebaController extends Controller
     public function count(){
 
         
-        if(VicidialList::where('status','=','NEW')->where('list_id','=',1000)->where('called_count','=',0)->count() < 5000){
+        if(VicidialList::where('status','=','NEW')->where('list_id','=',1000)->where('called_count','=',0)->count() < 6000){
 
             $prueba = new GeneradorAutomatico(1);
             $prueba->generate();
             return response()->json([
-                'response' => 'Se generaron 25000 numeros para la Zona 1',
-                'status' => 'success'
+                'response' => 'Se ingresaron 25000 numeros para la zona 1',
+                'status' => 'success',
+                'zone' => 1
             ]);
-        }else if(VicidialList::where('status','=','NEW')->where('list_id','=',2000)->where('called_count','=',0)->count() < 5000){
+        }else if(VicidialList::where('status','=','NEW')->where('list_id','=',2000)->where('called_count','=',0)->count() < 6000){
             $prueba = new GeneradorAutomatico(2);
             $prueba->generate();
             return response()->json([
-                'response' => 'Se generaron 25000 numeros para la Zona 2',
-                'status' => 'success'
+                'response' => 'Se ingresaron 25000 numeros para la zona 2',
+                'status' => 'success',
+                'zone' => 2
             ]);
 
-        }else if(VicidialList::where('status','=','NEW')->where('list_id','=',3000)->where('called_count','=',0)->count() < 5000){
+        }else if(VicidialList::where('status','=','NEW')->where('list_id','=',3000)->where('called_count','=',0)->count() < 6000){
+
 
             $prueba = new GeneradorAutomatico(3);
-            $prueba->generate();
+           $prueba->generate();
             return response()->json([
-                'response' => 'Se generaron 25000 numeros para la Zona 3',
-                'status' => 'success'
+                'response' => 'Se ingresaron 25000 numeros para la zona 3',
+                'status' => 'success',
+                'zone' => 3
             ]);
 
         }else if(VicidialList::where('status','=','NEW')->where('list_id','=',4000)->where('called_count','=',0)->count() < 5000){
-
             $prueba = new GeneradorAutomatico(4);
             $prueba->generate();
-            return response()->json([
-                'response' => 'Se generaron 25000 numeros para la Zona 4',
-                'status' => 'success'
+             return response()->json([
+                'response' => 'Se ingresaron 25000 numeros para la zona 4',
+                'status' => 'success',
+                'zone' => 4
             ]);
-
         }else{
             return response()->json([
                 'response' => 'La data esta llena para todas las zonas',
@@ -80,7 +83,7 @@ class GeneradorAutomatico{
         //Buscar los codigos de area para la zona seleccionada
         $areaCodes = $this->searchAreaCode($this->zona);
         //Buscar los numeros a seleccionar
-        $numbers = $this->searchNumbers(7,(int)25000/count($areaCodes));
+        $numbers = $this->searchNumbers(7,(int)5);
         
         //Insertar los numeros en base de datos
         $this->insertDB($areaCodes,$numbers);
@@ -94,12 +97,14 @@ class GeneradorAutomatico{
     * @param $zonas array
     * @return $areaCodes Collection
     */
-    private function searchAreaCode($zona){        
+    private function searchAreaCode($zona){   
+  
         return AreaCode::join('STATESZONE', function($join) use ($zona){
                     $join->on('AREACODES.STATESZONE_ID','=','STATESZONE.STATESZONE_ID')
                     ->where('ZONES_ID',$zona);
                 })->join('STATES','STATES.STATES_ID','=','STATESZONE.STATES_ID')
-        ->get(['AREACODES.CODE','AREACODES.AREACODES_ID','STATESZONE.ZONES_ID','STATES.NAME']);          
+        ->get(['AREACODES.CODE','AREACODES.AREACODES_ID','STATESZONE.ZONES_ID','STATES.NAME']);
+             
     }
 
     /**
@@ -126,27 +131,27 @@ class GeneradorAutomatico{
 
     private function insertDB($areaCodes,$numbers){
         $arrayAreaCodes = array();
-
+       
         foreach ($areaCodes as $key => $value) {
-            $arrayAreaCodes['CODE'][] = $value->CODE;
+            $arrayAreaCodes['CODES'][] = $value->CODE;
             $arrayAreaCodes['ZONE'][] = $value->ZONES_ID;
-            $arrayAreaCodes['CITY'][] = $value->NAME;
+            $arrayAreaCodes['STATE'][] = $value->NAME;
         }
 
         $consultArray = array();
 
         for($i = 0; $i < count($numbers); $i++){
-            for($j = 0; $j < count($arrayAreaCodes['CODE']);$j++){
-                $consultArray[] = (['phone_number' => $arrayAreaCodes['CODE'][$j].$numbers[$i], 
+            for($j = 0; $j < count($arrayAreaCodes['CODES']);$j++){
+                $consultArray[] = (['phone_number' => $arrayAreaCodes['CODES'][$j].$numbers[$i], 
                                 'zona' => $arrayAreaCodes['ZONE'][$j],
-                                'city' => $arrayAreaCodes['CITY'][$j],
+                                'state' => $arrayAreaCodes['STATE'][$j],
                                 'user' => 'ANG']);
             }
             
         }
 
         //Generación de colas para la inserción en la base de datos.
-        /*$queue = new InsertVicidial($consultArray);
+       /* $queue = new InsertVicidial($consultArray);
         dispatch($queue);*/
 
         VicidialList::insertIgnore($consultArray);

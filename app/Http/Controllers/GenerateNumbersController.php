@@ -30,6 +30,7 @@ class GenerateNumbersController extends Controller
         \Artisan::call('cache:clear');
         $zonas = array(1000,2000,3000,4000);
         $countZone = DB::connection('asterisk')->select('CALL numberCounterByZone');
+        
 
         foreach ($countZone as $key => $value) {
             
