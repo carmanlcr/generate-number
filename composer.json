@@ -12,12 +12,15 @@
         "anchu/ftp": "^2.0",
         "doctrine/dbal": "2.5.1",
         "fideloper/proxy": "^4.0",
+        "folklore/image": "0.3.*",
+        "intervention/image": "^2.5",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "laraveles/spanish": "^1.2",
         "maatwebsite/excel": "^3.1",
         "nesbot/carbon": "^2.24",
-        "pusher/pusher-php-server": "~4.0"
+        "pusher/pusher-php-server": "~4.0",
+        "yajra/laravel-datatables-oracle": "^9.8"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

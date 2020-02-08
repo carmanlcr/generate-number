@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+<title>{{ config('app.name') }}</title>
+@endsection
 @section('css')
 <link href="{{ asset('css/generate.css') }}" rel="stylesheet">
 @endsection
@@ -9,55 +12,28 @@
 		</h1>
 		<br>
 
-		<div class="row">
+		<div class="row" id="generate">
+
 			<table class="table table-bordered">
-			  @include('generate.table-cabecera')
-			  @include('generate.table-body')
+				<thead class="thead-dark">
+				    <tr>
+				      <th scope="col">Zona</th>
+				      <th scope="col">Cantidad Actual</th>
+				    </tr>
+				</thead>
+				<tbody>
+					<tr v-for="generat in generate.array">
+						<th scope="row">@{{ generat.list_id}}</th>
+						<th scope="row" >@{{ generat.count}}</th>
+					</tr>
+				</tbody>
 			</table>
-			<span id = "2"></span>
+		</div>
+		
+		<div class="alert" role="alert" id="alert">
+		 
 		</div>
 		
 		
-		
-		
 	</div>
-@endsection
-
-@section('js')	
-	<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
-	<script src="{{ asset('js/generate.js') }}" type="text/javascript"></script>
-
-	<script type="text/javascript">
-		//getTimeAJAX();
-		$("#columna").hide();
-     function getTimeAJAX() {
-
-    	
-    	
-
-        //GUARDAMOS EN UNA VARIABLE EL RESULTADO DE LA CONSULTA AJAX    
-        $.ajax({
-
-            url: '/generador-automatico', //indicamos la ruta donde se genera los numeros aleatorios
-            type: 'get',
-            dataType: 'JSON',//indicamos que es de tipo texto plano
-            async: false,     //ponemos el parámetro asyn a falso
-            success: function(data) 
-        	{ 
-
-        		console.log(data.response);
-        	
-            },
-            error: function(data){
-            	console.log(data.responseJSON.message);
-            }
-        }).responseText;
-
-    }
-
-    //con esta funcion llamamos a la función getTimeAJAX cada 5 minutos para que valide e inserte 
-    setInterval(getTimeAJAX,300000);
-    
-
-</script>
 @endsection

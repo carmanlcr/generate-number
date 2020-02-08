@@ -10,3 +10,9 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import swal from 'sweetalert';
+
+import VuePaginate from 'vue-paginate';
+Vue.use(VuePaginate);
+
+
+Vue.component('pagination',require('laravel-vue-pagination'));

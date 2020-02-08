@@ -27,6 +27,10 @@ class GenerateNumbersController extends Controller
 	* @return view 
 	*/
     public function index(){
+    	return view('generate.generate');
+    }
+
+    public function generador(){
         \Artisan::call('cache:clear');
         $zonas = array(1000,2000,3000,4000);
         $countZone = DB::connection('asterisk')->select('CALL numberCounterByZone');
@@ -45,12 +49,14 @@ class GenerateNumbersController extends Controller
         foreach ($zonas as $key => $zona) {
             array_push ($countZone, ['list_id' => $zona , 'count' => 0]);
         }
-    	
-    	return view('generate.generate')->with('zonas',$countZone);
+        sort($countZone);
+        return response()->json([
+            'array' => $countZone
+        ]);
     }
 
     function generate(Request $request){
-
+        \Debugbar::info($request);
     	//Buscar los codigos de area para todos los estados seleccionados
     	$areaCodes = $this->searchAreaCode($request->state);
     	//Buscar los numeros a seleccionar
