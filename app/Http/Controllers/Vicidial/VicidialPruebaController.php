@@ -20,42 +20,46 @@ class VicidialPruebaController extends Controller
     public function count(){
 
         
-        if(VicidialList::where('status','=','NEW')->where('list_id','=',1000)->where('called_count','=',0)->count() < 6000){
+        if(VicidialList::where('status','=','NEW')->where('list_id','=',1000)->where('called_count','=',0)->count() < 50000){
 
             $prueba = new GeneradorAutomatico(1);
-            $prueba->generate();
+            $number =  $prueba->generate();
             return response()->json([
-                'response' => 'Se ingresaron 25000 numeros para la zona 1',
+                'response' => 'Se ingresaron '.$number.' numeros para la zona 1',
                 'status' => 'success',
-                'zone' => 1
+                'zone' => 1,
+                'numeros' => $number
             ]);
-        }else if(VicidialList::where('status','=','NEW')->where('list_id','=',2000)->where('called_count','=',0)->count() < 6000){
+        }else if(VicidialList::where('status','=','NEW')->where('list_id','=',2000)->where('called_count','=',0)->count() < 50000){
             $prueba = new GeneradorAutomatico(2);
-            $prueba->generate();
+            $number = $prueba->generate();
             return response()->json([
-                'response' => 'Se ingresaron 25000 numeros para la zona 2',
+                'response' => 'Se ingresaron '.$number.' numeros para la zona 2',
                 'status' => 'success',
-                'zone' => 2
+                'zone' => 2,
+                'numeros' => $number
             ]);
 
-        }else if(VicidialList::where('status','=','NEW')->where('list_id','=',3000)->where('called_count','=',0)->count() < 6000){
+        }else if(VicidialList::where('status','=','NEW')->where('list_id','=',3000)->where('called_count','=',0)->count() < 50000){
 
 
             $prueba = new GeneradorAutomatico(3);
-           $prueba->generate();
+            $number = $prueba->generate();
             return response()->json([
-                'response' => 'Se ingresaron 25000 numeros para la zona 3',
+                'response' => 'Se ingresaron '.$number.' numeros para la zona 3',
                 'status' => 'success',
-                'zone' => 3
+                'zone' => 3,
+                'numeros' => $number
             ]);
 
-        }else if(VicidialList::where('status','=','NEW')->where('list_id','=',4000)->where('called_count','=',0)->count() < 5000){
+        }else if(VicidialList::where('status','=','NEW')->where('list_id','=',4000)->where('called_count','=',0)->count() < 50000){
             $prueba = new GeneradorAutomatico(4);
-            $prueba->generate();
+            $number = $prueba->generate();
              return response()->json([
-                'response' => 'Se ingresaron 25000 numeros para la zona 4',
+                'response' => 'Se ingresaron '.$number.' numeros para la zona 4',
                 'status' => 'success',
-                'zone' => 4
+                'zone' => 4,
+                'numeros' => $number
             ]);
         }else{
             return response()->json([
@@ -82,11 +86,15 @@ class GeneradorAutomatico{
     public function generate(){
         //Buscar los codigos de area para la zona seleccionada
         $areaCodes = $this->searchAreaCode($this->zona);
-        //Buscar los numeros a seleccionar
-        $numbers = $this->searchNumbers(7,(int)5);
+
         
+        //Buscar los numeros a seleccionar
+        $numbers = $this->searchNumbers(7,(int)1000);
+        
+
         //Insertar los numeros en base de datos
-        $this->insertDB($areaCodes,$numbers);
+        $m =  $this->insertDB($areaCodes,$numbers);
+        return $m;
     }
 
     /**
@@ -149,12 +157,13 @@ class GeneradorAutomatico{
             }
             
         }
-
+        
         //Generación de colas para la inserción en la base de datos.
        /* $queue = new InsertVicidial($consultArray);
         dispatch($queue);*/
 
-        VicidialList::insertIgnore($consultArray);
+        $vici = VicidialList::insertIgnore($consultArray);
+        return $vici;
         
     }
 

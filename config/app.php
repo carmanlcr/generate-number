@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'es',
+    'locale' => 'es_Es',
 
     /*
     |--------------------------------------------------------------------------
@@ -181,6 +181,13 @@ return [
         //Excel
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Anchu\Ftp\FtpServiceProvider::class,
+
+        //Datatable
+        Yajra\DataTables\DataTablesServiceProvider::class,
+
+        Folklore\Image\ImageServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        
     ],
 
     /*
@@ -231,7 +238,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

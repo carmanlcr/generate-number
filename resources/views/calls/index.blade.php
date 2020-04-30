@@ -1,14 +1,31 @@
-@extends('layouts.app')
 
+@extends('layouts.app')
+@section('title')
+<title>Reporte de llamadas</title>
+@endsection
 @section('content')
-	<div class="container" id="calls">
-		<h1 class="text-center">
-			<strong class="text-primary" >Llamadas del @{{ calls.date }}</strong>
-		</h1>
+	<br>
+	<div id="calls">
+		<div class="row">
+			<div class="col-md-10">
+				<h1 class="text-center">
+					<strong class="text-primary" >Llamadas del @{{ calls.date }}</strong>
+				</h1>
+				<br>
+			</div>
+		</div>
 		<br>
-		<table class="table table-bordered">
-			@include('calls.table-cabecera')
-			@include('calls.table-body')
-		</table>
+		<div class="row">
+			<div class="col-ls-12">
+				<table class="table table-bordered">
+					@include('calls.table-cabecera')
+					@include('calls.table-body')
+				</table>
+			</div>
+		</div>
+			
+
+		
+		
 	</div>
 @endsection

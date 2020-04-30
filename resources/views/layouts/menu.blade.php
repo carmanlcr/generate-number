@@ -1,20 +1,51 @@
-<nav class="navbar navbar-expand-md navbar-light ">
-        <a class="navbar-brand" href="{{ url('/generate') }}">
-            {{ config('app.name') }}
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        @auth
-          <ul class="nav nav-tabs ml-auto" id="myTab" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
-            </li>
-          </ul>
-        @endauth
-    
-</nav>
-
+<div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <ul class="list-unstyled components">
+                <p>Menu Principal</p>
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Call Center</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="{{ url('callcenter/generate') }}">Generador de Numeros</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('callcenter/calls') }}">Reporte de Llamadas</a>
+                        </li>
+                    </ul>
+                    <a href="#facebookSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Facebook</a>
+                    <ul class="collapse list-unstyled" id="facebookSubmenu">
+                        <li>
+                            <a href="{{ url('facebook/users') }}">Usuarios</a>
+                            <a href="{{ url('facebook/postUser') }}">Publicaciones de Usuarios</a>
+                            <a href="{{ url('facebook/blockUser') }}">Usuarios Bloqueados</a>
+                        </li>
+                    </ul>
+                    <a href="#InstagramSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Instagram</a>
+                    <ul class="collapse list-unstyled" id="InstagramSubmenu">
+                        <li>
+                            <a href="{{ route('usersInstagram')}}">Usuarios</a>
+                        </li>
+                    </ul>
+                    <a href="#TwitterSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Twitter</a>
+                    <ul class="collapse list-unstyled" id="TwitterSubmenu">
+                        <li>
+                            <a href="{{ route('usersTwitter')}}">Usuarios</a>
+                        </li>
+                    </ul>
+                    <a href="#TaskSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Tareas</a>
+                    <ul class="collapse list-unstyled" id="TaskSubmenu">
+                        <li>
+                            <a href="{{route('taskIndex')}}">Tareas</a>
+                        </li>
+                    </ul>
+                    <a href="#ProfileSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Perfiles</a>
+                    <ul class="collapse list-unstyled" id="ProfileSubmenu">
+                        <li>
+                            <a href="{{route('profileIndex')}}">Perfiles</a>
+                            <a href="{{route('profileAdd')}}">Creacion</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
