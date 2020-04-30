@@ -12,7 +12,7 @@ class Call extends Model
      * @var string
      * @author Luis Morales
      */
-    protected $table = 'CALLS';
+    protected $table = 'calls';
 
     /**
      * The primary key associated with the table.
@@ -21,6 +21,13 @@ class Call extends Model
      * @author Luis Morales
      */
     protected $primaryKey = 'CALLS_ID';
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -35,6 +42,8 @@ class Call extends Model
          'THREE',
          'THREE_TO_FIVE',
          'MORE_THAN_FIVE',
+         'CREATED_AT',
+         'UPDATED_AT',
     ];
 
 }
